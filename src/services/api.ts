@@ -1,35 +1,56 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { DadosRestaurante } from '../Components/CardRestaurants'
 
-import Cardapio from '../models/Cardapio'
-import Checkout from '../models/Checkout'
+export type Product = {
+    id: number
+    price: number
+}
+  
+export type PurchasePayload = {
+    products: Product[]
+    delivery: {
+    receiver: string
+    adress: {
+        description: string
+        city: string
+        zipCode: string
+        number: number
+        complement?: string
+    }
+    }
+    payment: {
+    card: {
+        name: string
+        number: string
+        code: number
+        expires: {
+        month: number
+        year: number
+        }
+    }
+    }
+}
 
 const api = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://ebac-fake-api.vercel.app/api/efood/restaurantes'
-  }),
-  endpoints: (builder) => ({
-    getCardapio: builder.query<Cardapio[], void>({
-      query: () => `/restaurantes`
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'https://ebac-fake-api.vercel.app/api/efood',
     }),
-
-    getRestaurante: builder.query<Cardapio, string>({
-      query: (id) => `/restaurantes/${id}`
-    }),
-
-    purchase: builder.mutation<any, Checkout>({
-      query: (body) => ({
-        url: 'checkout',
-        method: 'POST',
-        body
-      })
+    endpoints: (builder) => ({
+        getRestaurants: builder.query<DadosRestaurante[], void>({
+            query: () => 'restaurantes'
+        }),
+        getCurrentRest: builder.query<DadosRestaurante, string>({
+            query: (id) => `restaurantes/${id}`
+        }),
+        purchase: builder.mutation<any, PurchasePayload>({
+            query: (body) => ({
+              url: 'checkout',
+              method: 'POST',
+              body
+            })
     })
-  })
-})
+})})
 
-export const {
-  useGetCardapioQuery,
-  useGetRestauranteQuery,
-  usePurchaseMutation
-} = api
+export const {useGetRestaurantsQuery, useGetCurrentRestQuery, usePurchaseMutation} = api
 
 export default api

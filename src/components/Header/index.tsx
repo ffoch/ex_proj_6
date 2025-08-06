@@ -1,14 +1,11 @@
-import { Imagem, Logo, TextHeader } from './styles'
-import logo from '../../assets/images/logo.svg'
-import headerimg from '../../assets/images/fundo.png'
+import logo from '../../Assets/images/logo.png'
+import { HeaderContainer, Logo, Title } from './styles'
 
 const Header = () => (
-  <Imagem style={{ backgroundImage: `url(${headerimg})` }}>
-    <Logo src={logo} alt="efood" />
-    <TextHeader>
-      Viva experiências gastronômicas no conforto da sua casa
-    </TextHeader>
-  </Imagem>
+    <HeaderContainer>
+        <Logo src={logo} alt="" />
+        <Title>Viva experiências gastronômicas no conforto da sua casa</Title>
+    </HeaderContainer>
 )
 
 export default Header
